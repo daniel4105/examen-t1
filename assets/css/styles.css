@@ -1,0 +1,23 @@
+body {
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(135deg, #1c1c2e, #2a2a4f);
+}
+
+.main-container {
+    flex: 1;
+}
+
+canvas {
+    background: linear-gradient(to bottom, #bde0fe, #a2d2ff);
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.4);
+}
+
+.reference-img {
+    max-height: 500px;
+    object-fit: contain;
+    box-shadow: 0 0 20px rgba(0,0,0,0.4);
+}
