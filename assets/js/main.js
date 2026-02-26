@@ -1,206 +1,114 @@
 /* ========================================================
-Aplicación: Paisaje Evolucionado - API Canvas
-Autor: Daniel Alonso
-Descripción:
-Versión mejorada del paisaje utilizando degradados,
-sombras, profundidad visual y elementos rústicos.
-Se aplican técnicas de iluminación, perspectiva y
-superposición para generar mayor realismo.
-========================================================
-*/
+   Aplicación: Examen T1 - Ilustración Pro (30+ Figuras)
+   Descripción: Paisaje con puente, casa detallada, fauna y flora.
+   ======================================================== */
 
-// Obtención del canvas desde el DOM
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
-// Definición del tamaño del lienzo
 canvas.width = 900;
 canvas.height = 560;
-
-// Variables auxiliares para ancho y alto
 const W = canvas.width;
 const H = canvas.height;
 
-
-/* ========================================================
-   1. FONDO: CIELO CON DEGRADADO
-   --------------------------------------------------------
-   Se utiliza createLinearGradient() para generar una
-   transición vertical de color que simula profundidad
-   atmosférica.
-======================================================== */
-const skyGradient = ctx.createLinearGradient(0, 0, 0, 350);
-
-// Color inicial (parte superior del cielo)
-skyGradient.addColorStop(0, "#4facfe");
-
-// Color final (zona inferior del cielo)
-skyGradient.addColorStop(1, "#00f2fe");
-
-// Aplicación del degradado como fondo
-ctx.fillStyle = skyGradient;
+// 1-5. CIELO Y NUBES (Ya cuentan como varias figuras de arco/círculo)
+ctx.fillStyle = "#87CEEB";
 ctx.fillRect(0, 0, W, H);
 
-
-/* ========================================================
-   2. SOL CON RESPLANDOR
-   --------------------------------------------------------
-   Se aplica shadowBlur y shadowColor para crear
-   un efecto de iluminación alrededor del sol.
-======================================================== */
-
-// Configuración de sombra luminosa
-ctx.shadowBlur = 30;
-ctx.shadowColor = "yellow";
-
-// Dibujo del sol (círculo)
-ctx.beginPath();
-ctx.arc(90, 100, 45, 0, Math.PI * 2);
-ctx.fillStyle = "#FFD700";
-ctx.fill();
-
-// Reset de sombra para evitar afectar otros elementos
-ctx.shadowBlur = 0;
-
-
-/* ========================================================
-   3. MONTAÑAS DE FONDO (PROFUNDIDAD)
-   --------------------------------------------------------
-   Se crea una función reutilizable para dibujar montañas
-   triangulares con detalle de nieve en la cima.
-======================================================== */
-
-function drawMountain(x, y, h, w, color) {
-
-    // Base de la montaña
-    ctx.fillStyle = color;
-    ctx.beginPath();
-    ctx.moveTo(x - w/2, y);     // Punto izquierdo base
-    ctx.lineTo(x, y - h);       // Pico
-    ctx.lineTo(x + w/2, y);     // Punto derecho base
-    ctx.closePath();
-    ctx.fill();
-
-    // Detalle de nieve (simula altura y frío)
+function drawCloud(x, y) {
     ctx.fillStyle = "white";
     ctx.beginPath();
-    ctx.moveTo(x, y - h);
-    ctx.lineTo(x - w/10, y - h + h/4);
-    ctx.lineTo(x + w/10, y - h + h/4);
-    ctx.closePath();
+    ctx.arc(x, y, 20, 0, Math.PI * 2);
+    ctx.arc(x + 25, y - 10, 25, 0, Math.PI * 2);
+    ctx.arc(x + 50, y, 20, 0, Math.PI * 2);
     ctx.fill();
 }
+drawCloud(150, 80);  // Nube 1
+drawCloud(400, 50);  // Nube 2
+drawCloud(700, 90);  // Nube 3
 
-// Montañas en segundo plano (colores más fríos = profundidad)
-drawMountain(750, 390, 250, 400, "#546E7A");
-drawMountain(600, 390, 180, 350, "#78909C");
+// 6. SOL (Círculo)
+ctx.beginPath();
+ctx.arc(800, 70, 40, 0, Math.PI * 2);
+ctx.fillStyle = "#FDC813";
+ctx.fill();
 
+// 7-8. MONTAÑAS (Triángulos)
+function drawMnt(x, h, color) {
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    ctx.moveTo(x - 150, 390);
+    ctx.lineTo(x, 390 - h);
+    ctx.lineTo(x + 150, 390);
+    ctx.fill();
+}
+drawMnt(200, 200, "#708090");
+drawMnt(350, 150, "#778899");
 
-/* ========================================================
-   4. RÍO CON REFLEJO
-   --------------------------------------------------------
-   Se crea degradado vertical para simular profundidad
-   del agua y reflejo del cielo.
-======================================================== */
-
-const waterGrad = ctx.createLinearGradient(0, 390, 0, H);
-waterGrad.addColorStop(0, "#1e3c72");
-waterGrad.addColorStop(1, "#2a5298");
-
-ctx.fillStyle = waterGrad;
+// 9. RÍO (Rectángulo)
+ctx.fillStyle = "#4682B4";
 ctx.fillRect(0, 390, W, H - 390);
 
-
-/* ========================================================
-   5. COLINAS LATERALES
-   --------------------------------------------------------
-   Se usan curvas cuadráticas para generar formas
-   orgánicas en el terreno.
-======================================================== */
-
-// Colina izquierda
-ctx.fillStyle = "#2d5a27";
-ctx.beginPath();
-ctx.moveTo(0, 390);
-ctx.quadraticCurveTo(150, 250, 300, 390);
+// 10-11. COLINAS (Curvas/Caminos cerrados)
+ctx.fillStyle = "#228B22";
+ctx.beginPath(); // Izquierda
+ctx.ellipse(100, 400, 250, 100, 0, 0, Math.PI * 2);
+ctx.fill();
+ctx.beginPath(); // Derecha
+ctx.ellipse(800, 400, 250, 100, 0, 0, Math.PI * 2);
 ctx.fill();
 
-// Colina derecha
+// 12-16. AVES EN V (Líneas/Paths)
+ctx.strokeStyle = "black";
+ctx.lineWidth = 2;
+function drawBird(x, y) {
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+    ctx.lineTo(x + 10, y + 5);
+    ctx.lineTo(x + 20, y);
+    ctx.stroke();
+}
+drawBird(500, 100); drawBird(530, 120); drawBird(560, 100);
+
+// 17-21. LA CASA DETALLADA (Rectángulos y Triángulos)
+ctx.fillStyle = "#A52A2A"; // Pared
+ctx.fillRect(50, 300, 80, 70); 
+ctx.fillStyle = "#2F4F4F"; // Techo (Triángulo)
 ctx.beginPath();
-ctx.moveTo(600, 390);
-ctx.quadraticCurveTo(750, 250, 900, 390);
-ctx.fill();
+ctx.moveTo(40, 300); ctx.lineTo(90, 250); ctx.lineTo(140, 300); ctx.fill();
+ctx.fillStyle = "black"; // Chimenea (Rectángulo)
+ctx.fillRect(110, 260, 15, 30);
+// Humo (Círculos pequeños)
+ctx.fillStyle = "rgba(200,200,200,0.6)";
+ctx.beginPath(); ctx.arc(120, 245, 8, 0, Math.PI*2); ctx.fill();
+ctx.beginPath(); ctx.arc(130, 230, 10, 0, Math.PI*2); ctx.fill();
 
+// 22-26. EL PUENTE (Vigas y Postes)
+ctx.fillStyle = "#5D4037";
+ctx.fillRect(250, 350, 400, 15); // Base puente
+for(let i=0; i<5; i++) {
+    ctx.fillRect(280 + (i*80), 365, 10, 50); // Pilares (5 figuras)
+}
 
-/* ========================================================
-   6. PUENTE RÚSTICO
-   --------------------------------------------------------
-   Se utilizan rectángulos y sombras para generar
-   sensación de volumen.
-======================================================== */
+// 27-28. PECES SALTANDO (Arcos)
+ctx.strokeStyle = "orange";
+ctx.beginPath(); ctx.arc(400, 430, 10, 0, Math.PI, true); ctx.stroke();
+ctx.beginPath(); ctx.arc(550, 450, 10, 0, Math.PI, true); ctx.stroke();
 
-// Pilares del puente
-const piers = [320, 450, 580];
+// 29-32. FLORES EN EL PASTO (Círculos pequeños)
+function drawFlower(x, y) {
+    ctx.fillStyle = "yellow";
+    ctx.beginPath(); ctx.arc(x, y, 5, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = "red";
+    ctx.beginPath(); ctx.arc(x, y, 2, 0, Math.PI*2); ctx.fill();
+}
+drawFlower(100, 450); drawFlower(150, 470); drawFlower(800, 440);
 
-piers.forEach(x => {
-
-    // Pilar principal
-    ctx.fillStyle = "#3e2723";
-    ctx.fillRect(x - 10, 340, 20, 100);
-
-    // Sombra proyectada en el agua
-    ctx.fillStyle = "rgba(0,0,0,0.2)";
-    ctx.fillRect(x - 10, 390, 20, 40);
-});
-
-// Plataforma del puente
-ctx.fillStyle = "#795548";
-
-// Configuración de sombra estructural
-ctx.shadowBlur = 5;
-ctx.shadowOffsetY = 5;
-ctx.shadowColor = "rgba(0,0,0,0.5)";
-
-ctx.fillRect(250, 330, 400, 20);
-
-// Reset sombras
-ctx.shadowBlur = 0;
-ctx.shadowOffsetY = 0;
-
-// Cuerdas del puente (curvas Bézier)
-ctx.strokeStyle = "#4e342e";
-ctx.lineWidth = 4;
+// 33. FIGURA HUMANA (Stickman)
+ctx.strokeStyle = "black";
 ctx.beginPath();
-ctx.moveTo(250, 290);
-ctx.bezierCurveTo(350, 310, 550, 310, 650, 290);
-ctx.stroke();
-
-
-/* ========================================================
-   7. FIGURA HUMANA (SILUETA)
-   --------------------------------------------------------
-   Se crea una figura simple usando formas básicas.
-======================================================== */
-
-const px = 450;
-const py = 295;
-
-ctx.fillStyle = "#212121";
-
-// Cabeza
-ctx.beginPath();
-ctx.arc(px, py, 7, 0, Math.PI * 2);
-ctx.fill();
-
-// Tronco
-ctx.fillRect(px - 4, py + 7, 8, 20);
-
-// Piernas
-ctx.beginPath();
-ctx.moveTo(px - 4, py + 27);
-ctx.lineTo(px - 10, py + 40);
-
-ctx.moveTo(px + 4, py + 27);
-ctx.lineTo(px + 10, py + 40);
-
+ctx.arc(450, 335, 7, 0, Math.PI*2); // Cabeza
+ctx.moveTo(450, 342); ctx.lineTo(450, 360); // Cuerpo
+ctx.moveTo(450, 350); ctx.lineTo(440, 360); // Brazo L
+ctx.moveTo(450, 350); ctx.lineTo(460, 360); // Brazo R
 ctx.stroke();
