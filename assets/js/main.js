@@ -166,6 +166,89 @@ riverGrad.addColorStop(1, "#1b4f72");
 ctx.fillStyle = riverGrad;
 ctx.fillRect(0, 390, W, H - 390);
 
+/* ========================================================
+   OLAS DE MOVIMIENTO EN EL AGUA
+   Descripción:
+   Se dibujan dos tipos de olas para simular dinamismo:
+   1) Olas grandes bajo el puente (impacto del agua)
+   2) Olas pequeñas distribuidas (flujo natural del río)
+======================================================== */
+
+/* =====================================
+   OLAS GRANDES BAJO EL PUENTE
+   -------------------------------------
+   Simulan la perturbación del agua justo
+   debajo de las columnas del puente.
+===================================== */
+
+// Configuración del trazo para las olas grandes
+ctx.strokeStyle = "black";
+ctx.lineWidth = 2;
+
+// Función para dibujar una ola grande con curvas suaves
+// x -> posición horizontal central de la ola
+// y -> posición vertical de la ola
+function drawBridgeWave(x, y) {
+
+    ctx.beginPath();
+
+    // Punto inicial de la ola
+    ctx.moveTo(x - 25, y);
+
+    // Curvas cuadráticas encadenadas que simulan
+    // el vaivén del agua al chocar con la estructura
+    ctx.quadraticCurveTo(x - 15, y - 10, x - 5, y);
+    ctx.quadraticCurveTo(x + 5, y + 10, x + 15, y);
+    ctx.quadraticCurveTo(x + 25, y - 10, x + 35, y);
+
+    ctx.stroke();
+}
+
+// Olas posicionadas justo debajo de las columnas del puente
+for (let i = 0; i < 2; i++) {
+    let waveX = 360 + (i * 165);
+    drawBridgeWave(waveX, 438);
+}
+
+
+/* =====================================
+   OLAS PEQUEÑAS DISPERSAS
+   -------------------------------------
+   Representan el movimiento constante
+   y suave del río a lo largo del cuerpo
+   de agua.
+===================================== */
+
+// Ajuste de grosor para olas pequeñas
+ctx.lineWidth = 1.2;
+
+// Función para dibujar una ola pequeña
+// x -> posición horizontal
+// y -> posición vertical
+// size -> amplitud de la ola
+function drawSmallWave(x, y, size = 15) {
+
+    ctx.beginPath();
+
+    // Curva simple tipo seno usando quadraticCurveTo
+    ctx.moveTo(x - size, y);
+    ctx.quadraticCurveTo(x, y - 6, x + size, y);
+
+    ctx.stroke();
+}
+
+// Distribución irregular para mayor naturalidad
+drawSmallWave(100, 535, 18);
+drawSmallWave(200, 535, 18);
+drawSmallWave(350, 455, 12);
+drawSmallWave(350, 500, 12);
+drawSmallWave(500, 445, 16);
+drawSmallWave(500, 505, 16);
+drawSmallWave(650, 500, 14);
+drawSmallWave(780, 535, 18);
+drawSmallWave(420, 470, 10);
+drawSmallWave(600, 530, 13);
+
 
 /* ========================================================
    5. PUENTE
